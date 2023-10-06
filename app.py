@@ -67,22 +67,19 @@ gender = st.selectbox(
 
 #load saved models
 import pickle
-with open('model.pkl', 'rb') as model_file:
+with open('rf.pkl', 'rb') as model_file:
     model = pickle.load(model_file)
 
 # Create a Streamlit UI
 predict_button = st.button('Predict')
 
 if predict_button:
-    criteria = [tiredness, dry_cough, difficulty_in_breathing, sore_throat, none_sympton, pains, nasal_congestion, runny_nose, none_experiencing, age_range, gender]
-    prediction = model.predict([criteria])[0]  # Assuming model.predict takes a list of criteria
-
+    criteria = [sore_throat, pains, age_range]
+    prediction = model.predict([criteria])[0]
     if prediction == 0:
-        label_text = 'None'
-    elif prediction == 1:
-        label_text = 'Mid'
+        label_text = 'You Have Asthma'
     else:
-        label_text ='Moderate'
+        label_text = 'Congratulations, You are Okay!!'
 
     # Display the prediction
     st.write(f'Severity: {label_text}')
